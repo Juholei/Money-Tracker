@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/bLastMonth"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/last_month"
+            android:src="@drawable/arrowleft" />
+
+        <TextView
+            android:id="@+id/tvMonth"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textAllCaps="true"
+            android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/bNextMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+            android:contentDescription="@string/next_month"
+                android:src="@drawable/arrowright" />
+
+            <TextView
+                android:id="@+id/totalSum"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center|right"
+                android:maxLines="1"
+                android:paddingRight="8dp"
+                android:textStyle="bold" />
+	</LinearLayout>
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="2dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="2dp"
+        android:scaleType="fitXY"
+        android:src="@android:drawable/divider_horizontal_dark" />
+
+    <ListView
+        android:id="@+id/expenselist"
+        android:layout_width="fill_parent"
+        android:layout_height="0px"
+        android:layout_weight="8" >
+    </ListView>
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="2dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="2dp"
+        android:scaleType="fitXY"
+        android:src="@android:drawable/divider_horizontal_dark" />
+
+    <TextView
+        android:id="@+id/tvBalance"
+        android:layout_width="fill_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        android:gravity="center" />
+
+</LinearLayout>

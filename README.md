@@ -3,7 +3,7 @@ Money-Tracker
 
 Money Tracker app for Android. Works on Android version 2.3+, designed for 4.0 and onwards.
 
-Originally created in December 2013.
+Originally created in December 2012.
 
 # Screenshots
 

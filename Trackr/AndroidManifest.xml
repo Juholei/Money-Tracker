@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="17" />
+        android:targetSdkVersion="19" />
 
     <application
         android:allowBackup="true"
@@ -24,13 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="Expenses" >
-        </activity>
-        <activity
-            android:name="Incomes" >
-        </activity>
-        <activity
-            android:name="History" >
+            android:name="com.trackr.trackr.EntryViewActivity" >
         </activity>
         <activity
             android:name="AddEntry"

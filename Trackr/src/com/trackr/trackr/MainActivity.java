@@ -35,14 +35,16 @@ public class MainActivity extends TabActivity {
 		// Creating Expenses tab and adding it to tabHost
 		TabSpec expensesSpec = tabHost.newTabSpec(EXPENSES);
 		expensesSpec.setIndicator(EXPENSES);
-		Intent expensesIntent = new Intent(this, Expenses.class);
+		Intent expensesIntent = new Intent(this, EntryViewActivity.class);
+		expensesIntent.putExtra("com.trackr.trackr.type", "expenses");
 		expensesSpec.setContent(expensesIntent);
 		tabHost.addTab(expensesSpec);
 
 		// Creating Incomes tab
 		TabSpec incomesSpec = tabHost.newTabSpec(INCOMES);
 		incomesSpec.setIndicator(INCOMES);
-		Intent incomesIntent = new Intent(this, Incomes.class);
+		Intent incomesIntent = new Intent(this, EntryViewActivity.class);
+		incomesIntent.putExtra("com.trackr.trackr.type", "incomes");
 		incomesSpec.setContent(incomesIntent);
 		tabHost.addTab(incomesSpec);
 

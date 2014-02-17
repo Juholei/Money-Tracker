@@ -19,8 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ListView;
 
-public class Incomes extends Activity implements OnClickListener {
+public class EntryViewActivity extends Activity implements OnClickListener {
 
+	private String type;
 	private ListView listView;
 	private TextView totalSum, monthView, balanceView;
 	private ArrayList<Entry> entryList;
@@ -35,7 +36,8 @@ public class Incomes extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.tabview);
+		setContentView(R.layout.main_view);
+		type = getIntent().getExtras().getString("com.trackr.trackr.type");
 
 		// Getting date
 		Calendar cal = Calendar.getInstance();
@@ -47,7 +49,7 @@ public class Incomes extends Activity implements OnClickListener {
 
 		// Initializing the ListView for the entries, then setting the listView
 		// and registering the listView for Context Menu
-		listView = (ListView) findViewById(R.id.expenselist);
+		listView = (ListView) findViewById(R.id.entryList);
 		registerForContextMenu(listView);
 
 		// Initializing Buttons and setting onClickListeners
@@ -74,7 +76,7 @@ public class Incomes extends Activity implements OnClickListener {
 
 		// Checking if the Context Menu was opened from the Expense list and if
 		// so, adding a menu item for Delete.
-		if (v.getId() == R.id.expenselist) {
+		if (v.getId() == R.id.entryList) {
 			menu.add(Menu.NONE, Menu.NONE, Menu.NONE, "Delete");
 		}
 	}
@@ -92,14 +94,12 @@ public class Incomes extends Activity implements OnClickListener {
 		// adapter,
 		// notifying the adapter of the changes and updating the totalSum
 		// TextView
-		eds.deleteEntry(entryForMenu.getId(), "incomes");
-		adapter.remove(entryForMenu);
-		adapter.notifyDataSetChanged();
-		totalSum.setText(Entry.getFormattedSum(entryList));
+		eds.deleteEntry(entryForMenu.getId(), type);
+		updateMonth();
 
 		// Informing the user of the deletion with a toast notification
-		Toast toast = Toast.makeText(getApplicationContext(), entryForMenu.getTitle()
-						+ " removed", Toast.LENGTH_SHORT);
+		Toast toast = Toast.makeText(getApplicationContext(),
+				entryForMenu.getTitle() + " removed", Toast.LENGTH_SHORT);
 		toast.show();
 
 		return true;
@@ -116,23 +116,30 @@ public class Incomes extends Activity implements OnClickListener {
 		// getting entryList filled with the
 		// entries of the current month
 		// and creating the list item adapter for our entryList.
-		entryList = eds.getEntriesForMonth(year, month,
-				SQLiteHelper.TABLE_INCOMES);
-		adapter = new EntryAdapter(Incomes.this, R.id.expenselist, entryList);
+		entryList = eds.getEntriesForMonth(year, month, type);
+		adapter = new EntryAdapter(EntryViewActivity.this, R.id.entryList,
+				entryList);
 		listView.setAdapter(adapter);
 
 		// TextViews
-		totalSum.setText("+" + Entry.getFormattedSum(entryList));
-		totalSum.setTextColor(Color.GREEN);
+		BigDecimal balance = eds.getSumForMonth(year, month,
+				"incomes").subtract(eds.getSumForMonth(year, month,
+						"expenses"));
+		String formattedSum = Entry.getFormattedSum(entryList);
 		String monthName = this.getResources().getStringArray(
 				R.array.month_names)[month - 1];
 		monthView.setText(monthName + " " + year);
-
-		BigDecimal balance = Entry.getSum(entryList).subtract(
-				eds.getSumForMonth(year, month, "expenses"));
 		balanceView.setText(monthName + "'s Balance: "
 				+ Entry.formatValue(balance) + "€");
 
+		if (type == "expenses") {
+			totalSum.setText("-" + formattedSum);
+			totalSum.setTextColor(Color.RED);
+
+		} else {
+			totalSum.setText("+" + formattedSum);
+			totalSum.setTextColor(Color.GREEN);
+		}
 		if (balance.signum() == -1) {
 			balanceView.setTextColor(Color.parseColor("#FD543C"));
 		} else {
@@ -144,7 +151,7 @@ public class Incomes extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 
-		// Change month
+		// Change month based on the button pressed
 		case R.id.bLastMonth:
 			if (month == 1) {
 				month = 12;
